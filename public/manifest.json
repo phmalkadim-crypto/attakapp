@@ -1,0 +1,41 @@
+{
+  "id": "/",
+  "name": "عَتّاك | Attak - منصة مزادات الخردة والمعادن في العراق",
+  "short_name": "عَتّاك",
+  "description": "منصة المزادات الأولى للخردة والمعادن في العراق. عَتّاك | Attak - بيع خردتك بأعلى سعر 🔨♻️",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#062016",
+  "theme_color": "#062016",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["business", "shopping"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

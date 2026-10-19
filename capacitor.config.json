@@ -1,0 +1,6 @@
+{
+  "appId": "com.attak.app",
+  "appName": "عَتّاك | Attak",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
