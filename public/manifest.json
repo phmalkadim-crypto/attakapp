@@ -37,10 +37,28 @@
   "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ec4e53b7",
   "scope_extensions": [
     {
+      "origin": "https://attakapp.netlify.app"
+    },
+    {
+      "origin": "https://*.netlify.app"
+    },
+    {
       "origin": "https://attak.app"
     },
     {
       "origin": "https://*.attak.app"
+    },
+    {
+      "origin": "https://attak-app.web.app"
+    },
+    {
+      "origin": "https://*.web.app"
+    },
+    {
+      "origin": "https://*.firebaseapp.com"
+    },
+    {
+      "origin": "https://*.run.app"
     }
   ],
   "shortcuts": [
