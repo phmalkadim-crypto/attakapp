@@ -6,12 +6,24 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#062016",
   "theme_color": "#062016",
   "lang": "ar",
   "dir": "rtl",
   "categories": ["business", "shopping"],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.attak.app",
+      "url": "https://play.google.com/store/apps/details?id=com.attak.app"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
   "icons": [
     {
       "src": "/pwa-192x192.png",
@@ -36,6 +48,22 @@
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/mobile-screen.png",
+      "sizes": "1072x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "مزادات الخردة المباشرة في العراق"
+    },
+    {
+      "src": "/screenshots/desktop-screen.png",
+      "sizes": "1920x1072",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "لوحة مزادات الخردة والمعادن - عَتّاك"
     }
   ]
 }

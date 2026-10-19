@@ -4,8 +4,8 @@ import './index.css';
 
 createRoot(document.getElementById('root')!).render(<App />);
 
-// Register Service Worker for PWA support
-if ('serviceWorker' in navigator && process.env.NODE_ENV !== 'development') {
+// Register Service Worker for PWA offline capabilities and fast loading
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').catch((err) => {
       console.warn('PWA service worker registration failed:', err);
