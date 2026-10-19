@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { Auction, Category, User } from '../../types';
-import { MobileStatusBar } from './MobileStatusBar';
 import { PullToRefresh } from './PullToRefresh';
 import { formatIQD, formatTimeRemaining } from '../../utils/formatters';
 import { IRAQI_GOVERNORATES } from '../../data/constants';
@@ -174,17 +173,18 @@ export const MobileHomeScreen: React.FC<MobileHomeScreenProps> = ({
         isDarkMode ? 'bg-[#0B1612]' : 'bg-white'
       }`}
     >
-      {/* 1. FIXED CURVED HEADER: يبقى ثابت في الأعلى عند الصعود والنزول، ومقوس من الأسفل */}
+      {/* 1. FIXED CURVED HEADER: يبدأ مباشرة بشعار عَتّاك ومضبوط مع شريط الحالة الحقيقي للجهاز */}
       <header
-        className={`shrink-0 z-30 text-white pt-1 pb-4 px-4 shadow-lg relative transition-colors rounded-b-[32px] sm:rounded-b-[36px] ${
+        style={{
+          paddingTop: 'max(env(safe-area-inset-top, 0px), 12px)',
+        }}
+        className={`shrink-0 z-30 text-white pb-4 px-4 shadow-lg relative transition-colors rounded-b-[32px] sm:rounded-b-[36px] ${
           isDarkMode
             ? 'bg-[#04150E] border-b border-emerald-950/70 shadow-emerald-950/50'
             : 'bg-[#062016] shadow-black/20'
         }`}
       >
-        <MobileStatusBar darkTheme={true} />
-
-        {/* Top Header Row matching the user's screenshot layout */}
+        {/* Top Header Row: يبدأ مباشرة بشعار عَتّاك والأزرار */}
         <div className="relative flex items-center justify-between pt-1 pb-1">
           {/* Left: Notification Bell with Red Dot */}
           <div className="flex items-center gap-1.5">
