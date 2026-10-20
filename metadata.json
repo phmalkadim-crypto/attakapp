@@ -1,8 +1,0 @@
-{
-  "name": "عَتّاك | Attak",
-  "description": "منصة المزادات الأولى للخردة والمعادن في العراق. عَتّاك | Attak - بيع خردتك بأعلى سعر 🔨♻️",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}
