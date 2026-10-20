@@ -25,9 +25,11 @@ import { AdminPanelScreen } from './components/mobile/AdminPanelScreen';
 import { AuthModal } from './components/AuthModal';
 import { RatingModal } from './components/RatingModal';
 import { WelcomeSplashScreen } from './components/mobile/WelcomeSplashScreen';
+import { AuthScreen } from './components/mobile/AuthScreen';
 
 type AppScreen =
   | 'welcome_splash'
+  | 'auth'
   | 'splash'
   | 'main'
   | 'auction_details'
@@ -133,22 +135,19 @@ export default function App() {
       {/* ---------------- 0. WELCOME SPLASH SCREEN (3 seconds full-screen with fade-in text & fade-out) ---------------- */}
       {currentScreen === 'welcome_splash' && (
         <WelcomeSplashScreen
-          onComplete={() => setCurrentScreen('splash')}
+          onComplete={() => setCurrentScreen('auth')}
         />
       )}
 
-      {/* ---------------- 1. SPLASH SCREEN (Screen 1 in image) ---------------- */}
-      {currentScreen === 'splash' && (
-        <SplashScreen
-          onLogin={() => {
-            setAuthInitialMode('login');
-            setShowAuthModal(true);
+      {/* ---------------- 1. AUTH SCREEN (Dedicated Full-Screen Login & Register with Toggle) ---------------- */}
+      {(currentScreen === 'auth' || currentScreen === 'splash') && (
+        <AuthScreen
+          initialMode={authInitialMode}
+          onAuthSuccess={(user) => {
+            setCurrentUser(user);
+            refreshState();
+            setCurrentScreen('main');
           }}
-          onRegister={() => {
-            setAuthInitialMode('register');
-            setShowAuthModal(true);
-          }}
-          onEnterGuest={() => setCurrentScreen('main')}
         />
       )}
 
@@ -218,9 +217,9 @@ export default function App() {
               onOpenAdmin={() => setCurrentScreen('admin_panel')}
               onSwitchUserPrompt={() => {
                 setAuthInitialMode('login');
-                setShowAuthModal(true);
+                setCurrentScreen('auth');
               }}
-              onLogout={() => setCurrentScreen('splash')}
+              onLogout={() => setCurrentScreen('auth')}
             />
           )}
 

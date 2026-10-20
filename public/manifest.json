@@ -7,23 +7,9 @@
   "scope": "/",
   "display": "standalone",
   "display_override": [
-    "tabbed",
-    "window-controls-overlay",
     "standalone",
     "minimal-ui"
   ],
-  "tab_strip": {
-    "home_tab": {
-      "scope_patterns": [
-        {
-          "pathname": "/"
-        }
-      ]
-    },
-    "new_tab_button": {
-      "url": "/?tab=add"
-    }
-  },
   "orientation": "portrait",
   "background_color": "#062016",
   "theme_color": "#062016",

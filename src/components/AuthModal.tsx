@@ -298,7 +298,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <Smartphone className="w-4 h-4 text-slate-400 absolute right-3.5 pointer-events-none" />
                 </div>
                 <span className="text-[10.5px] text-slate-400 block mt-1">
-                  مثال: 07801234567 (أو 07829692579 للإدارة)
+                  مثال: 07801234567
                 </span>
               </div>
 
@@ -342,14 +342,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </button>
                 </div>
               </div>
-
-              {/* Admin Highlight Indicator when phone matches */}
-              {cleanPhone(loginPhone) === ADMIN_PHONE && (
-                <div className="p-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-2 text-amber-300 text-xs">
-                  <Crown className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span>حساب الإدارة المعتمد (Admin Role) - سيتم تفعيل لوحة الإدارة تلقائياً.</span>
-                </div>
-              )}
 
               {/* Main Submit Button: Orange "دخول" */}
               <button

@@ -9,20 +9,20 @@ export const WelcomeSplashScreen: React.FC<WelcomeSplashScreenProps> = ({ onComp
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    // 1. Fade in the bottom welcome message smoothly after 800ms
+    // 1. Fade in the bottom welcome message smoothly after 300ms
     const textTimer = setTimeout(() => {
       setShowWelcomeText(true);
-    }, 800);
+    }, 300);
 
-    // 2. Start smooth fade-out at 2650ms
+    // 2. Start smooth fade-out at 1200ms
     const fadeOutTimer = setTimeout(() => {
       setIsFadingOut(true);
-    }, 2650);
+    }, 1200);
 
-    // 3. Complete and navigate to Login/Register at exactly 3000ms
+    // 3. Complete and navigate to Login/Register at exactly 1500ms (1.5 seconds)
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 3000);
+    }, 1500);
 
     return () => {
       clearTimeout(textTimer);
