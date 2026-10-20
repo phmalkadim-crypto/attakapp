@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 @layer base {
+  html,
+  body,
+  #root {
+    overscroll-behavior-y: contain;
+    overscroll-behavior: contain;
+  }
   body {
     font-family: 'Tajawal', 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
   }

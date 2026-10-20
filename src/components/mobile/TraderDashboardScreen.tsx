@@ -35,7 +35,7 @@ export const TraderDashboardScreen: React.FC<TraderDashboardScreenProps> = ({
   );
 
   return (
-    <div className="flex-1 flex flex-col bg-[#F8FAFC] overflow-y-auto pb-4 select-none">
+    <div className="flex-1 flex flex-col bg-[#F8FAFC] overflow-y-auto pb-28 select-none">
       {/* Top Bar */}
       <div className="bg-white border-b border-slate-200 sticky top-0 z-20">
         <MobileStatusBar darkTheme={false} />

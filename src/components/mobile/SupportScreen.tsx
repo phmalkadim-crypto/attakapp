@@ -71,7 +71,7 @@ export const SupportScreen: React.FC<SupportScreenProps> = ({
     },
     {
       q: 'من يدفع عمولة المنصة ومتى يتم دفعها؟',
-      a: 'التاجر الفائز بالمزاد يدفع عمولة المنصة فقط عبر بوابة ZainCash بعد انتهاء المزاد لفتح بيانات التواصل ورقم هاتف صاحب الخردة والاتفاق على الاستلام.',
+      a: 'تبلغ عمولة المنصة 2,000 دينار مقسمة مناصفة (1,000 دينار على البائع و1,000 دينار على المشتري). يدفع المشتري الفائز كامل المبلغ (2,000 دينار) عبر بوابة ZainCash بعد انتهاء المزاد لفتح بيانات التواصل ورقم الهاتف. وعند الاستلام، يخصم المشتري 1,000 دينار من حساب البائع (مثال: إذا رسى المزاد على 85 ألف، يدفع المشتري للمنصة 2,000 زين كاش، ويسلم البائع 84 ألف دينار فقط عند الاستلام).',
     },
     {
       q: 'هل تستلم منصة عَتّاك قيمة الخردة المالية؟',
@@ -89,7 +89,7 @@ export const SupportScreen: React.FC<SupportScreenProps> = ({
 
   return (
     <div
-      className={`flex-1 flex flex-col h-full overflow-y-auto no-scrollbar pb-8 select-none transition-colors ${
+      className={`flex-1 flex flex-col h-full overflow-y-auto no-scrollbar pb-28 select-none transition-colors ${
         isDarkMode ? 'bg-[#0B1612] text-slate-100' : 'bg-[#F8FAFC] text-slate-900'
       }`}
     >

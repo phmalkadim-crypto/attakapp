@@ -246,7 +246,7 @@ export const MobileHomeScreen: React.FC<MobileHomeScreenProps> = ({
       {/* 2. Scrollable White Body: ينزل من الهايدر المقوس ويسحب للتحديث ويتحرك بسلاسة عند الصعود والنزول */}
       <PullToRefresh
         onRefresh={onRefresh}
-        className={`flex-1 overflow-y-auto no-scrollbar pb-8 pt-4 px-4 space-y-4 transition-colors -mt-3.5 z-10 ${
+        className={`flex-1 overflow-y-auto no-scrollbar pb-28 pt-4 px-4 space-y-4 transition-colors -mt-3.5 z-10 ${
           isDarkMode
             ? 'bg-[#0B1612] text-slate-100'
             : 'bg-white text-slate-900'

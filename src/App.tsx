@@ -24,8 +24,10 @@ import { NotificationsScreen } from './components/mobile/NotificationsScreen';
 import { AdminPanelScreen } from './components/mobile/AdminPanelScreen';
 import { AuthModal } from './components/AuthModal';
 import { RatingModal } from './components/RatingModal';
+import { WelcomeSplashScreen } from './components/mobile/WelcomeSplashScreen';
 
 type AppScreen =
+  | 'welcome_splash'
   | 'splash'
   | 'main'
   | 'auction_details'
@@ -47,8 +49,8 @@ export default function App() {
     store.getNotifications()
   );
 
-  // App navigation state
-  const [currentScreen, setCurrentScreen] = useState<AppScreen>('main');
+  // App navigation state: Starts with 3-second Welcome Splash Screen
+  const [currentScreen, setCurrentScreen] = useState<AppScreen>('welcome_splash');
   const [activeTab, setActiveTab] = useState<MobileTab>('home');
 
   // Active items for sub-screens
@@ -59,6 +61,7 @@ export default function App() {
 
   // Auth / Rating Modal
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authInitialMode, setAuthInitialMode] = useState<'login' | 'register'>('login');
   const [showRatingModal, setShowRatingModal] = useState(false);
 
   // Dark Mode state with localStorage persistence
@@ -127,11 +130,24 @@ export default function App() {
       }}
       isDarkMode={isDarkMode}
     >
+      {/* ---------------- 0. WELCOME SPLASH SCREEN (3 seconds full-screen with fade-in text & fade-out) ---------------- */}
+      {currentScreen === 'welcome_splash' && (
+        <WelcomeSplashScreen
+          onComplete={() => setCurrentScreen('splash')}
+        />
+      )}
+
       {/* ---------------- 1. SPLASH SCREEN (Screen 1 in image) ---------------- */}
       {currentScreen === 'splash' && (
         <SplashScreen
-          onLogin={() => setShowAuthModal(true)}
-          onRegister={() => setShowAuthModal(true)}
+          onLogin={() => {
+            setAuthInitialMode('login');
+            setShowAuthModal(true);
+          }}
+          onRegister={() => {
+            setAuthInitialMode('register');
+            setShowAuthModal(true);
+          }}
           onEnterGuest={() => setCurrentScreen('main')}
         />
       )}
@@ -200,7 +216,10 @@ export default function App() {
               onOpenTraderDashboard={() => setCurrentScreen('trader_dashboard')}
               onOpenNotifications={() => setCurrentScreen('notifications')}
               onOpenAdmin={() => setCurrentScreen('admin_panel')}
-              onSwitchUserPrompt={() => setShowAuthModal(true)}
+              onSwitchUserPrompt={() => {
+                setAuthInitialMode('login');
+                setShowAuthModal(true);
+              }}
               onLogout={() => setCurrentScreen('splash')}
             />
           )}
@@ -331,6 +350,7 @@ export default function App() {
       {/* ---------------- MODALS ---------------- */}
       {showAuthModal && (
         <AuthModal
+          initialMode={authInitialMode}
           onClose={() => setShowAuthModal(false)}
           onAuthSuccess={(user) => {
             setCurrentUser(user);

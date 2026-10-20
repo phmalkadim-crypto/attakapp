@@ -105,7 +105,7 @@ export const INITIAL_SETTINGS: AppSettings = {
   minDurationHours: 1,
   maxDurationHours: 24,
   zainCashMerchantId: '5ff5588339c0a6470876bb06',
-  supportPhone: '07800000000',
+  supportPhone: '07829692579',
   termsAndConditionsAr: 'منصة عَتّاك منصة مزادات تربط البائعين بالتجار. تخضع المعاملات لاتفاق الطرفين على الوزن والفحص النهائي عند الاستلام. عَتّاك ليست طرفاً في قيمة البيع وتستلم العمولة المحددة فقط عند إتمام المزاد لإظهار بيانات التواصل.',
   privacyPolicyAr: 'نلتزم بحماية خصوصية بيانات أرقام الهواتف ومواقع البائعين ولا يتم إظهار رقم البائع إلا للتاجر الفائز بعد تأكيد دفع العمولة بنجاح من خلال بوابة زين كاش الرسمية.'
 };
@@ -156,7 +156,7 @@ export const INITIAL_USERS: User[] = [
   {
     id: 'usr-admin',
     name: 'إدارة عَتّاك المركزية',
-    phone: '07800000000',
+    phone: '07829692579',
     governorate: 'بغداد',
     area: 'المنصور',
     role: 'admin',

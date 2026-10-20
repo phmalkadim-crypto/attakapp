@@ -37,7 +37,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onLogout,
 }) => {
   return (
-    <div className="flex-1 flex flex-col bg-[#F8FAFC] overflow-y-auto pb-4 select-none">
+    <div className="flex-1 flex flex-col bg-[#F8FAFC] overflow-y-auto pb-28 select-none">
       {/* Top Bar */}
       <div className="bg-white border-b border-slate-200 sticky top-0 z-20">
         <MobileStatusBar darkTheme={false} />
@@ -70,8 +70,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             </span>
 
             <div className="flex items-center gap-2 mt-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px]">
-                {currentUser.role === 'both'
+              <span className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] ${
+                currentUser.role === 'admin'
+                  ? 'bg-purple-600 text-white shadow-xs'
+                  : 'bg-amber-500 text-slate-950'
+              }`}>
+                {currentUser.role === 'admin'
+                  ? '👑 مدير المنصة (Admin)'
+                  : currentUser.role === 'both'
                   ? 'بائع وتاجر'
                   : currentUser.role === 'trader'
                   ? 'تاجر خردة'
@@ -148,11 +154,22 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
           <button
             onClick={onOpenAdmin}
-            className="w-full px-4 py-3 flex items-center justify-between text-xs text-slate-800 hover:bg-slate-50 transition-colors"
+            className={`w-full px-4 py-3 flex items-center justify-between text-xs transition-colors ${
+              currentUser.role === 'admin'
+                ? 'bg-amber-500/15 hover:bg-amber-500/20 text-amber-900 font-bold'
+                : 'text-slate-800 hover:bg-slate-50'
+            }`}
           >
             <div className="flex items-center gap-2.5">
-              <SlidersHorizontal className="w-4 h-4 text-slate-700" />
-              <span className="font-bold">لوحة الإدارة (Admin Panel)</span>
+              <SlidersHorizontal className={`w-4 h-4 ${currentUser.role === 'admin' ? 'text-amber-600' : 'text-slate-700'}`} />
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold">لوحة الإدارة (Admin Panel)</span>
+                {currentUser.role === 'admin' && (
+                  <span className="text-[9px] bg-amber-500 text-slate-950 px-1.5 py-0.2 rounded font-black">
+                    مفعّلة 👑
+                  </span>
+                )}
+              </div>
             </div>
             <ChevronLeft className="w-4 h-4 text-slate-400" />
           </button>

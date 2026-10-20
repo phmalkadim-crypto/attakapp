@@ -17,14 +17,19 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   isDarkMode = false,
 }) => {
   return (
-    <div
-      className={`border-t select-none z-30 shrink-0 transition-colors ${
+    <nav
+      role="navigation"
+      aria-label="القائمة السفلية"
+      style={{
+        paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 8px)',
+      }}
+      className={`fixed sm:absolute bottom-0 left-0 right-0 w-full border-t select-none z-40 shrink-0 transition-colors shadow-[0_-4px_20px_rgba(0,0,0,0.08)] ${
         isDarkMode
-          ? 'bg-[#0B1813] border-emerald-950/80 text-slate-300'
-          : 'bg-white border-slate-200/90 text-slate-600'
+          ? 'bg-[#0B1813]/95 backdrop-blur-md border-emerald-950/80 text-slate-300'
+          : 'bg-white/95 backdrop-blur-md border-slate-200/90 text-slate-600'
       }`}
     >
-      <div className="grid grid-cols-5 items-center h-16 px-2 relative">
+      <div className="grid grid-cols-5 items-center h-16 px-2 relative max-w-md mx-auto">
         {/* Tab 1: الرئيسية */}
         <button
           onClick={() => onTabChange('home')}
@@ -113,15 +118,6 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           <span className="text-[11px] mt-1">حسابي</span>
         </button>
       </div>
-
-      {/* iPhone Home Indicator */}
-      <div className="pb-1.5 pt-0.5">
-        <div
-          className={`w-32 h-1 rounded-full mx-auto transition-colors ${
-            isDarkMode ? 'bg-slate-700' : 'bg-slate-300'
-          }`}
-        />
-      </div>
-    </div>
+    </nav>
   );
 };
