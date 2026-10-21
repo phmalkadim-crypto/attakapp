@@ -19,13 +19,13 @@ android {
 
     defaultConfig {
         applicationId "com.example.attakapp"
-        minSdk flutter.minSdkVersion
+        minSdk 21
         targetSdk flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
-     buildTypes {
+    buildTypes {
         release {
             signingConfig signingConfigs.debug
         }
