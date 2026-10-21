@@ -1,0 +1,8 @@
+{
+  "name": "عَتّاك | Attak - منصة الخردة العراقية",
+  "description": "منصة مزادات وتجارة الخردة والسكراب في العراق (Flutter & Dart)",
+  "version": "1.0.0",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
