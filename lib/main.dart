@@ -1,29 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
-import 'constants/theme.dart';
-import 'services/app_state.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => AppState(),
-      child: const AttakApp(),
-    ),
-  );
+  runApp(const AttakApp());
 }
 
 class AttakApp extends StatelessWidget {
   const AttakApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(Widget context) {
     return MaterialApp(
       title: 'عَتّاك | Attak',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -31,9 +21,24 @@ class AttakApp extends StatelessWidget {
       ],
       supportedLocales: const [
         Locale('ar', 'IQ'),
-        Locale('ar', ''),
       ],
       locale: const Locale('ar', 'IQ'),
+      theme: ThemeData(
+        useMaterial3: true,
+        primaryColor: const Color(0xFF04AF37),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF04AF37),
+          primary: const Color(0xFF04AF37),
+          secondary: const Color(0xFFB30222),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF8F9FA),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF04AF37),
+          foregroundColor: Colors.white,
+          centerTitle: true,
+          elevation: 0,
+        ),
+      ),
       home: const SplashScreen(),
     );
   }
