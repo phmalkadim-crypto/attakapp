@@ -3,6 +3,7 @@ import 'constants/theme.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const AttakApp());
 }
 
@@ -12,7 +13,7 @@ class AttakApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'عَتّاك | Attak',
+      title: 'عتاك | Attak',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: const SplashScreen(),
