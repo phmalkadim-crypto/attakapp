@@ -23,7 +23,8 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 6),
                 Text(
                   'تصفح أحدث مزادات حديد السكراب، النحاس، والألمنيوم المتاحة اليوم.',
-                  style: TextStyle(color: Colors.white90, fontSize: 13),
+                                style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 13),
+
                 ),
               ],
             ),
