@@ -36,3 +36,4 @@ jobs:
         with:
           name: attak-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+          # trigger run
