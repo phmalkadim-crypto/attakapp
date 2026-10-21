@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'add_auction_screen.dart';
+import 'deals_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -12,12 +13,12 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
 
-  // قائمة الشاشات الرئيسية للتطبيق بعد ربط الرئيسية وأضف مزاد
+  // قائمة الشاشات المرتبطة بالتنقل السفلي بالترتيب الصحيح
   final List<Widget> _screens = [
     const HomeScreen(),
     const Center(child: Text('الدعم', style: TextStyle(color: Colors.white, fontSize: 22))),
     const AddAuctionScreen(),
-    const Center(child: Text('صفقاتي', style: TextStyle(color: Colors.white, fontSize: 22))),
+    const DealsScreen(),
     const Center(child: Text('حسابي', style: TextStyle(color: Colors.white, fontSize: 22))),
   ];
 
