@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
+import 'add_auction_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -10,11 +12,11 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
 
-  // قائمة الشاشات الرئيسية للتطبيق (مع استبدال المزادات بقسم الدعم)
+  // قائمة الشاشات الرئيسية للتطبيق بعد ربط الرئيسية وأضف مزاد
   final List<Widget> _screens = [
-    const Center(child: Text('الرئيسية', style: TextStyle(color: Colors.white, fontSize: 22))),
+    const HomeScreen(),
     const Center(child: Text('الدعم', style: TextStyle(color: Colors.white, fontSize: 22))),
-    const Center(child: Text('أضف مزاد', style: TextStyle(color: Colors.white, fontSize: 22))),
+    const AddAuctionScreen(),
     const Center(child: Text('صفقاتي', style: TextStyle(color: Colors.white, fontSize: 22))),
     const Center(child: Text('حسابي', style: TextStyle(color: Colors.white, fontSize: 22))),
   ];
@@ -22,7 +24,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F04AF37),
+      backgroundColor: const Color(0xFF0F1A15),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -32,7 +34,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF1a2621),
+        backgroundColor: const Color(0xFF16251E),
         selectedItemColor: const Color(0xFF04AF37),
         unselectedItemColor: Colors.grey,
         items: const [
