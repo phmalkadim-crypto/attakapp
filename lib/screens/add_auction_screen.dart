@@ -1,7 +1,63 @@
 import 'package:flutter/material.dart';
+import '../models/auction_model.dart';
 
-class AddAuctionScreen extends StatelessWidget {
-  const AddAuctionScreen({super.key});
+class AddAuctionScreen extends StatefulWidget {
+  final Function(AuctionModel) onAuctionAdded;
+
+  const AddAuctionScreen({super.key, required this.onAuctionAdded});
+
+  @override
+  State<AddAuctionScreen> createState() => _AddAuctionScreenState();
+}
+
+class _AddAuctionScreenState extends State<AddAuctionScreen> {
+  final _titleController = TextEditingController();
+  final _weightController = TextEditingController();
+  final _priceController = TextEditingController();
+  
+  String _selectedCategory = 'قواطي';
+  String _selectedCity = 'الديوانية - مركز الديوانية';
+
+  final List<String> _categories = ['قواطي', 'نحاس', 'حديد', 'ألمنيوم', 'بطاريات', 'أخرى'];
+  final List<String> _cities = ['الديوانية - مركز الديوانية', 'بغداد - الكرادة', 'البصرة - العشار', 'النجف - المدينة القديمة'];
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _weightController.dispose();
+    _priceController.dispose();
+    super.dispose();
+  }
+
+  void _submitAuction() {
+    if (_titleController.text.isEmpty || _weightController.text.isEmpty || _priceController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('يرجى ملء جميع الحقول المطلوبة', style: TextStyle(fontFamily: 'Cairo'))),
+      );
+      return;
+    }
+
+    final newAuction = AuctionModel(
+      title: _titleController.text,
+      category: _selectedCategory,
+      weight: '${_weightController.text} كغم تقريباً',
+      price: '${_priceController.text} د.ع / كغم',
+      city: _selectedCity,
+      endTime: '24:00:00',
+      bidsCount: 0,
+    );
+
+    widget.onAuctionAdded(newAuction);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('تم إضافة المزاد بنجاح ونشره في المنصة', style: TextStyle(fontFamily: 'Cairo'))),
+    );
+
+    // تفريغ الحقول بعد الإضافة
+    _titleController.clear();
+    _weightController.clear();
+    _priceController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +70,9 @@ class AddAuctionScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // العنوان في الأعلى
-              Center(
-                child: const Text(
-                  'أضف خردتك للمزاد',
+              const Center(
+                child: Text(
+                  'إضافة مزاد خردة جديد',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -25,78 +80,61 @@ class AddAuctionScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
-              // اختيار نوع الخردة
-              const Text('نوع الخردة', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+              // عنوان المزاد
+              const Text('عنوان المزاد', style: TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _titleController,
+                style: const TextStyle(color: Colors.white, fontSize: 13),
+                decoration: InputDecoration(
+                  hintText: 'مثال: قواطي ألمنيوم مشروبات غازية مكبوسة',
+                  hintStyle: TextStyle(color: Colors.grey[500], fontSize: 13),
+                  filled: true,
+                  fillColor: const Color(0xFF16251E),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // قسم الخردة
+              const Text('قسم الخردة', style: TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   color: const Color(0xFF16251E),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withOpacity(0.06)),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
+                    value: _selectedCategory,
                     dropdownColor: const Color(0xFF16251E),
-                    value: 'اختر القسم',
-                    icon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.grey),
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
-                    items: ['اختر القسم', 'قواطي ألمنيوم', 'نحاس', 'حديد', 'ألمنيوم', 'بطاريات', 'أخرى']
-                        .map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value, style: TextStyle(color: value == 'اختر القسم' ? Colors.grey : Colors.white)),
-                      );
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
+                    items: _categories.map((cat) {
+                      return DropdownMenuItem(value: cat, child: Text(cat));
                     }).toList(),
-                    onChanged: (_) {},
+                    onChanged: (val) {
+                      setState(() {
+                        _selectedCategory = val!;
+                      });
+                    },
                   ),
                 ),
               ),
               const SizedBox(height: 16),
 
-              // صور الخردة
-              const Text('أضف صورة الخردة (يمكنك إضافة أكثر من صورة)', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF16251E),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFF04AF37).withOpacity(0.5)),
-                    ),
-                    child: const Icon(Icons.camera_alt_rounded, color: Color(0xFF04AF37), size: 28),
-                  ),
-                  const SizedBox(width: 10),
-                  for (int i = 0; i < 4; i++)
-                    Expanded(
-                      child: Container(
-                        height: 70,
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF16251E),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white.withOpacity(0.06)),
-                        ),
-                        child: const Icon(Icons.add, color: Colors.grey, size: 22),
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 16),
-
-              // الكمية التقريبية
-              const Text('الكمية التقريبية (كغم)', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+              // الوزن التقديري
+              const Text('الوزن التقديري (كغم)', style: TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               TextField(
-                style: const TextStyle(color: Colors.white, fontSize: 14),
+                controller: _weightController,
+                keyboardType: TextInputType.number,
+                style: const TextStyle(color: Colors.white, fontSize: 13),
                 decoration: InputDecoration(
-                  hintText: 'مثال: 50 كغم',
-                  hintStyle: TextStyle(color: Colors.grey[500], fontSize: 14),
+                  hintText: 'مثال: 50',
+                  hintStyle: TextStyle(color: Colors.grey[500], fontSize: 13),
                   filled: true,
                   fillColor: const Color(0xFF16251E),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
@@ -104,94 +142,65 @@ class AddAuctionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // الموقع (المحافظة والمنطقة)
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('المحافظة', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF16251E),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              dropdownColor: const Color(0xFF16251E),
-                              value: 'اختر المحافظة',
-                              style: const TextStyle(color: Colors.white, fontSize: 13),
-                              items: ['اختر المحافظة', 'الديوانية', 'بغداد', 'البصرة', 'النجف']
-                                  .map((val) => DropdownMenuItem(value: val, child: Text(val, style: TextStyle(color: val == 'اختر المحافظة' ? Colors.grey : Colors.white))))
-                                  .toList(),
-                              onChanged: (_) {},
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('المنطقة', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 8),
-                        TextField(
-                          style: const TextStyle(color: Colors.white, fontSize: 14),
-                          decoration: InputDecoration(
-                            hintText: 'اختر المنطقة',
-                            hintStyle: TextStyle(color: Colors.grey[500], fontSize: 13),
-                            filled: true,
-                            fillColor: const Color(0xFF16251E),
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-
-              // وصف الخردة
-              const Text('وصف الخردة (اختياري)', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+              // السعر الابتدائي
+              const Text('السعر الابتدائي (د.ع / كغم)', style: TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               TextField(
-                maxLines: 3,
-                style: const TextStyle(color: Colors.white, fontSize: 14),
+                controller: _priceController,
+                keyboardType: TextInputType.number,
+                style: const TextStyle(color: Colors.white, fontSize: 13),
                 decoration: InputDecoration(
-                  hintText: 'أضف وصفاً مختصرًا للخردة...',
-                  hintStyle: TextStyle(color: Colors.grey[500], fontSize: 14),
+                  hintText: 'مثال: 1700',
+                  hintStyle: TextStyle(color: Colors.grey[500], fontSize: 13),
                   filled: true,
                   fillColor: const Color(0xFF16251E),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
+
+              // المحافظة والمنطقة
+              const Text('المحافظة والمنطقة', style: TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF16251E),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _selectedCity,
+                    dropdownColor: const Color(0xFF16251E),
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
+                    items: _cities.map((city) {
+                      return DropdownMenuItem(value: city, child: Text(city));
+                    }).toList(),
+                    onChanged: (val) {
+                      setState(() {
+                        _selectedCity = val!;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
 
               // زر نشر المزاد
               SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.rocket_launch_rounded, size: 18),
-                  label: const Text('نشر المزاد', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                child: ElevatedButton(
+                  onPressed: _submitAuction,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF04AF37),
                     foregroundColor: Colors.white,
-                    elevation: 0,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 0,
                   ),
+                  child: const Text('نشر المزاد الآن', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 ),
               ),
-              const SizedBox(height: 20),
             ],
           ),
         ),
