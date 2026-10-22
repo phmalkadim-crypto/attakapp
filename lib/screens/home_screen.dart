@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../models/auction_model.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final List<AuctionModel> auctions;
+
+  const HomeScreen({super.key, required this.auctions});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. الترويسة العلوية المطابقة للصورة تماماً
+              // 1. الترويسة العلوية
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
                 decoration: const BoxDecoration(
@@ -28,7 +31,6 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // زر الوضع الليلي/النهاري
                         Container(
                           decoration: BoxDecoration(
                             color: const Color(0xFF22352C),
@@ -39,7 +41,6 @@ class HomeScreen extends StatelessWidget {
                             onPressed: () {},
                           ),
                         ),
-                        // شعار التطبيق في المنتصف
                         Column(
                           children: const [
                             Text(
@@ -62,7 +63,6 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        // زر الإشعارات مع نقطة تنبيه حمراء
                         Stack(
                           children: [
                             Container(
@@ -100,8 +100,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 18),
-
-                    // شريط البحث
                     Container(
                       height: 48,
                       decoration: BoxDecoration(
@@ -126,7 +124,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // 2. قسم أقسام الخردة
+              // 2. أقسام الخردة
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -139,7 +137,6 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              // شبكة أقسام الخردة (6 أقسام مطابقة للصورة)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: GridView.count(
@@ -162,7 +159,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // 3. قسم المحافظات
+              // 3. المحافظات
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -182,7 +179,7 @@ class HomeScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
-                    _buildCityChip('كل المحافظات (5)', true),
+                    _buildCityChip('كل المحافظات (${auctions.length})', true),
                     const SizedBox(width: 8),
                     _buildCityChip('بغداد (1)', false),
                     const SizedBox(width: 8),
@@ -195,7 +192,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // 4. المزادات النشطة
+              // 4. المزادات النشطة الديناميكية
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -208,129 +205,137 @@ class HomeScreen extends StatelessWidget {
                         const Text('المزادات النشطة 🔥', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    Text('5 مزادات', style: TextStyle(color: Colors.grey[400], fontSize: 12)),
+                    Text('${auctions.length} مزادات', style: TextStyle(color: Colors.grey[400], fontSize: 12)),
                   ],
                 ),
               ),
               const SizedBox(height: 12),
 
-              // بطاقة المزاد النشط المطابقة للصورة
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF16251E),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withOpacity(0.06)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+              // عرض قائمة المزادات بشكل ديناميكي
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: auctions.length,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemBuilder: (context, index) {
+                  final auction = auctions[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF16251E),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white.withOpacity(0.06)),
+                      ),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text(
-                                  'قواطي ألمنيوم مشروبات غازية مكبوسة...',
-                                  style: TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.bold),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  'قواطي ألمنيوم • 50 كغم تقريباً',
-                                  style: TextStyle(color: Colors.grey, fontSize: 11.5),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          // صورة مصغرة للمزاد مع عداد الوقت
-                          Container(
-                            width: 75,
-                            height: 70,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF22352C),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                const Icon(Icons.inventory_2_rounded, color: Color(0xFF04AF37), size: 28),
-                                Positioned(
-                                  bottom: 4,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: Colors.red.withOpacity(0.9),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: const Text(
-                                      '01:17:55',
-                                      style: TextStyle(color: Colors.white, fontSize: 8.5, fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.between,
-                        children: [
-                          Column(
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                '١,٧٠٠ د.ع / كغم',
-                                style: TextStyle(color: Color(0xFF04AF37), fontSize: 13.5, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                '📍 الديوانية - مركز الديوانية',
-                                style: TextStyle(color: Colors.grey[400], fontSize: 11),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF04AF37).withOpacity(0.15),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: const Text(
-                                  '3 مزايدة',
-                                  style: TextStyle(color: Color(0xFF04AF37), fontSize: 10, fontWeight: FontWeight.bold),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      auction.title,
+                                      style: const TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.bold),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${auction.category} • ${auction.weight}',
+                                      style: const TextStyle(color: Colors.grey, fontSize: 11.5),
+                                    ),
+                                  ],
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF04AF37),
-                                  foregroundColor: Colors.white,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                                  minimumSize: Size.zero,
+                              Container(
+                                width: 75,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF22352C),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: const Text('دخول المزاد', style: TextStyle(fontSize: 11.5)),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    const Icon(Icons.inventory_2_rounded, color: Color(0xFF04AF37), size: 28),
+                                    Positioned(
+                                      bottom: 4,
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red.withOpacity(0.9),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        child: Text(
+                                          auction.endTime,
+                                          style: const TextStyle(color: Colors.white, fontSize: 8.5, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.between,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    auction.price,
+                                    style: const TextStyle(color: Color(0xFF04AF37), fontSize: 13.5, fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    '📍 ${auction.city}',
+                                    style: TextStyle(color: Colors.grey[400], fontSize: 11),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF04AF37).withOpacity(0.15),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      '${auction.bidsCount} مزايدة',
+                                      style: const TextStyle(color: Color(0xFF04AF37), fontSize: 10, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF04AF37),
+                                      foregroundColor: Colors.white,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                      minimumSize: Size.zero,
+                                    ),
+                                    child: const Text('دخول المزاد', style: TextStyle(fontSize: 11.5)),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 30),
             ],
