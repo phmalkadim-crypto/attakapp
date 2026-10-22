@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import '../models/auction_model.dart';
+import 'auction_details_screen.dart';
 
-class MyDealsScreen extends StatelessWidget {
-  const MyDealsScreen({super.key});
+class DealsScreen extends StatelessWidget {
+  final List<AuctionModel> userAuctions;
+
+  const DealsScreen({super.key, required this.userAuctions});
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +17,9 @@ class MyDealsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // العنوان في الأعلى
               const Center(
                 child: Text(
-                  'صفقاتي والمزادات',
+                  'صفقاتي ومزاداتي النشطة',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -25,161 +28,112 @@ class MyDealsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // تبويبات علوية (نشطة / مكتملة)
               Row(
                 children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF04AF37),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Text(
-                        'الصفقات النشطة',
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF16251E),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.white.withOpacity(0.06)),
-                      ),
-                      child: Text(
-                        'المكتملة',
-                        style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold, fontSize: 13),
-                      ),
-                    ),
-                  ),
+                  Container(width: 3, height: 14, decoration: BoxDecoration(color: const Color(0xFF04AF37), borderRadius: BorderRadius.circular(2))),
+                  const SizedBox(width: 8),
+                  const Text('المزادات التي قمت بنشرها', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                 ],
               ),
-              const SizedBox(height: 20),
-
-              // قائمة الصفقات
+              const SizedBox(height: 12),
               Expanded(
-                child: ListView(
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    _buildDealCard(
-                      title: 'قواطي ألمنيوم',
-                      details: '⚖️ 50 كغم  •  📍 الديوانية',
-                      price: '85,000 د.ع',
-                      status: 'في انتظار دفع العمولة',
-                      statusColor: Colors.orange,
-                    ),
-                    const SizedBox(height: 12),
-                    _buildDealCard(
-                      title: 'نحاس أحمر خالص',
-                      details: '⚖️ 25 كغم  •  📍 الديوانية',
-                      price: '120,000 د.ع',
-                      status: 'تم دفع العمولة بنجاح',
-                      statusColor: const Color(0xFF04AF37),
-                    ),
-                  ],
-                ),
+                child: userAuctions.isEmpty
+                    .toString() == 'true' // Fallback check
+                    ? Center(
+                        child: Text(
+                          'لا توجد صفقات أو مزادات نشطة حالياً',
+                          style: TextStyle(color: Colors.grey[500], fontSize: 13.5),
+                        ),
+                      )
+                    : ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: userAuctions.length,
+                        itemBuilder: (context, index) {
+                          final auction = userAuctions[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF16251E),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: Colors.white.withOpacity(0.06)),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              auction.title,
+                                              style: const TextStyle(color: Colors.white, fontSize: 13.5, fontWeight: FontWeight.bold),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              '${auction.category} • ${auction.weight}',
+                                              style: const TextStyle(color: Colors.grey, fontSize: 11.5),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Container(
+                                        width: 65,
+                                        height: 55,
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF22352C),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: const Icon(Icons.handshake_rounded, color: Color(0xFF04AF37), size: 24),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.between,
+                                    children: [
+                                      Text(
+                                        auction.price,
+                                        style: const TextStyle(color: Color(0xFF04AF37), fontSize: 13.5, fontWeight: FontWeight.bold),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => AuctionDetailsScreen(auction: auction),
+                                            ),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xFF04AF37),
+                                          foregroundColor: Colors.white,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                          minimumSize: Size.zero,
+                                        ),
+                                        child: const Text('إدارة الصفقة', style: TextStyle(fontSize: 11.5)),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildDealCard({
-    required String title,
-    required String details,
-    required String price,
-    required String status,
-    required Color statusColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFF16251E),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.between,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  status,
-                  style: TextStyle(color: statusColor, fontSize: 11, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            details,
-            style: TextStyle(color: Colors.grey[400], fontSize: 12.5),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Divider(color: Color(0xFF22352C), height: 1),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('إجمالي السعر', style: TextStyle(color: Colors.grey[500], fontSize: 11)),
-                  const SizedBox(height: 2),
-                  Text(
-                    price,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.5,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 36,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF04AF37),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                  ),
-                  child: const Text('تفاصيل الصفقة', style: TextStyle(fontSize: 12)),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
