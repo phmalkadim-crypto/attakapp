@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../constants/theme.dart';
 import 'home_screen.dart';
 import 'deals_screen.dart';
 import 'add_auction_screen.dart';
@@ -18,37 +17,54 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    SupportScreen(),
-    AddAuctionScreen(),
     DealsScreen(),
+    AddAuctionScreen(),
+    SupportScreen(),
     ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.bgDark,
+      backgroundColor: const Color(0xFFF8FAFC),
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: AppTheme.primaryDark,
-          border: Border(
-            top: BorderSide(color: Color(0x33D4AF37), width: 1),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: const Border(
+            top: BorderSide(color: Color(0xFFE2E8F0), width: 1),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 10,
+              offset: const Offset(0, -2),
+            ),
+          ],
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: SizedBox(
+            height: 60,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // 1. الرئيسية
                 _buildNavItem(0, Icons.home_outlined, Icons.home, 'الرئيسية'),
-                _buildNavItem(1, Icons.help_outline, Icons.help, 'الدعم'),
+
+                // 2. صفقاتي
+                _buildNavItem(1, Icons.emoji_events_outlined, Icons.emoji_events, 'صفقاتي'),
+
+                // 3. Center Elevated Plus Button (+)
                 _buildCenterAddButton(),
-                _buildNavItem(3, Icons.emoji_events_outlined, Icons.emoji_events, 'صفقاتي'),
+
+                // 4. الدعم
+                _buildNavItem(3, Icons.headset_mic_outlined, Icons.headset_mic, 'الدعم'),
+
+                // 5. حسابي
                 _buildNavItem(4, Icons.person_outline, Icons.person, 'حسابي'),
               ],
             ),
@@ -60,24 +76,24 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   Widget _buildNavItem(int index, IconData outlineIcon, IconData filledIcon, String label) {
     final isSelected = _currentIndex == index;
-    return InkWell(
+    return GestureDetector(
       onTap: () => setState(() => _currentIndex = index),
-      borderRadius: BorderRadius.circular(12),
+      behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               isSelected ? filledIcon : outlineIcon,
-              color: isSelected ? AppTheme.goldAccent : Colors.white60,
-              size: 22,
+              color: isSelected ? const Color(0xFF0B3022) : const Color(0xFF94A3B8),
+              size: 20,
             ),
-            const SizedBox(height: 3),
+            const SizedBox(height: 2),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? AppTheme.goldAccent : Colors.white60,
+                color: isSelected ? const Color(0xFF0B3022) : const Color(0xFF94A3B8),
                 fontSize: 10,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
@@ -92,28 +108,25 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return GestureDetector(
       onTap: () => setState(() => _currentIndex = 2),
       child: Container(
-        width: 48,
-        height: 48,
+        width: 44,
+        height: 44,
+        margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [AppTheme.goldAccent, Color(0xFF997C22)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: const Color(0xFF0B3022),
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: AppTheme.goldAccent.withOpacity(0.35),
-              blurRadius: 10,
+              color: const Color(0xFF0B3022).withOpacity(0.35),
+              blurRadius: 8,
               offset: const Offset(0, 3),
             ),
           ],
-          border: Border.all(color: AppTheme.primaryDark, width: 2),
+          border: Border.all(color: Colors.white, width: 2.5),
         ),
         child: const Icon(
           Icons.add,
-          color: AppTheme.primaryDark,
-          size: 28,
+          color: Colors.white,
+          size: 24,
         ),
       ),
     );

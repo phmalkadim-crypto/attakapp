@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   // Brand Dark Green (#0B3022)
@@ -8,28 +7,24 @@ class AppTheme {
   // Brand Gold Accent (#D4AF37)
   static const Color goldAccent = Color(0xFFD4AF37);
 
-  // Supporting Dark Tones
-  static const Color bgDark = Color(0xFF061811);
-  static const Color surfaceDark = Color(0xFF0E3828);
-  static const Color cardDark = Color(0xFF114230);
-  static const Color successGreen = Color(0xFF10B981);
+  // Background light and dark
+  static const Color bgLight = Color(0xFFF8FAFC);
+  static const Color bgDark = Color(0xFF0F172A);
+  static const Color cardLight = Colors.white;
+  static const Color cardDark = Color(0xFF1E293B);
 
-  static ThemeData get darkTheme {
+  static ThemeData get lightTheme {
     return ThemeData(
-      brightness: Brightness.dark,
+      useMaterial3: true,
+      brightness: Brightness.light,
       primaryColor: primaryDark,
-      scaffoldBackgroundColor: bgDark,
-      colorScheme: const ColorScheme.dark(
-        primary: goldAccent,
+      scaffoldBackgroundColor: bgLight,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primaryDark,
+        primary: primaryDark,
         secondary: goldAccent,
-        surface: surfaceDark,
       ),
-      textTheme: GoogleFonts.cairoTextTheme(ThemeData.dark().textTheme).copyWith(
-        displayLarge: GoogleFonts.cairo(fontWeight: FontWeight.w900, color: Colors.white),
-        displayMedium: GoogleFonts.cairo(fontWeight: FontWeight.w800, color: Colors.white),
-        bodyLarge: GoogleFonts.tajawal(fontWeight: FontWeight.w500, color: Colors.white),
-        bodyMedium: GoogleFonts.tajawal(fontWeight: FontWeight.w400, color: const Color(0xFFCBD5E1)),
-      ),
+      fontFamily: 'Cairo',
       appBarTheme: const AppBarTheme(
         backgroundColor: primaryDark,
         elevation: 0,

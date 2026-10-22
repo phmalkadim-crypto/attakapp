@@ -509,7 +509,7 @@ export default function App() {
           className="flex items-center gap-1.5 font-bold cursor-pointer hover:opacity-80 transition-opacity"
         >
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse ring-2 ring-emerald-500/30" />
-          <span>تطبيق عَتّاك | Attak للهاتف ♻️</span>
+          <span>تطبيق عَتّاگ | Attak للهاتف ♻️</span>
         </div>
 
         {/* Left side in RTL: User Role Selector + Fullscreen */}
@@ -934,7 +934,7 @@ export default function App() {
                   {/* Center: Brand Typography */}
                   <div className="flex flex-col items-center justify-center text-center">
                     <h1 className="text-3xl font-black text-white tracking-tight leading-none">
-                      عَتّاك
+                      عَتّاگ
                     </h1>
                     <span className="text-[11px] font-black tracking-wide text-white/95 mt-0.5">
                       Attak
