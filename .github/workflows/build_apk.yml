@@ -7,31 +7,32 @@ on:
 
 jobs:
   build:
+    name: Build Android Release APK
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up Java Development Kit (JDK)
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Flutter
+      - name: Set up Flutter Environment
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.x'
           channel: 'stable'
 
-      - name: Get dependencies
+      - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build APK Release
+      - name: Build Release APK
         run: flutter build apk --release
 
-      - name: Upload APK Artifact
+      - name: Upload Release APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: attak-release-apk
