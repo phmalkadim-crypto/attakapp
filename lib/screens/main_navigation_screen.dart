@@ -4,6 +4,7 @@ import 'support_screen.dart';
 import 'add_auction_screen.dart';
 import 'deals_screen.dart';
 import 'profile_screen.dart';
+import '../models/auction_model.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -15,20 +16,39 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
 
-  // قائمة الشاشات المرتبطة بالتنقل السفلي بالترتيب الكامل
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const SupportScreen(),
-    const AddAuctionScreen(),
-    const DealsScreen(),
-    const ProfileScreen(),
+  // قائمة المزادات التي تبدأ بمزاد افتراضي وتستقبل المزادات الجديدة
+  final List<AuctionModel> _auctions = [
+    AuctionModel(
+      title: 'قواطي ألمنيوم مشروبات غازية مكبوسة...',
+      category: 'قواطي',
+      weight: '50 كغم تقريباً',
+      price: '١,٧٠٠ د.ع / كغم',
+      city: 'الديوانية - مركز الديوانية',
+      endTime: '01:17:55',
+      bidsCount: 3,
+    ),
   ];
+
+  void _addNewAuction(AuctionModel auction) {
+    setState(() {
+      _auctions.insert(0, auction); // إضافة المزاد الجديد في البداية
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    // قائمة الشاشات مع ربط البيانات الحية
+    final List<Widget> screens = [
+      HomeScreen(auctions: _auctions),
+      const SupportScreen(),
+      AddAuctionScreen(onAuctionAdded: _addNewAuction),
+      DealsScreen(userAuctions: _auctions),
+      const ProfileScreen(),
+    ];
+
     return Scaffold(
       backgroundColor: const Color(0xFF0F1A15),
-      body: _screens[_currentIndex],
+      body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
